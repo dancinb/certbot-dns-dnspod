@@ -32,7 +32,7 @@
 
     ```shell
     # 下载即安装
-    sudo curl -L https://cdn.jsdelivr.net/gh/xin-u/certbot-dns-dnspod/dnspod.sh -o /usr/local/bin/dnspod
+    sudo curl -L https://cdn.jsdelivr.net/gh/openbunny/certbot-dns-dnspod/dnspod.sh -o /usr/local/bin/dnspod
     sudo chmod +x /usr/local/bin/dnspod
     # 如果你的命令行里还找不到这个脚本，可以创建一个符号链接
     sudo ln -s /usr/local/bin/dnspod /usr/bin/dnspod
@@ -78,13 +78,13 @@
     添加定时任务 crontab。
 
     ```shell
-    crontab -e
+    sudo crontab -e
     ```
 
     输入
 
     ```txt
-    30 0 * * * sudo certbot renew --manual --preferred-challenges=dns --manual-auth-hook "dnspod" --manual-cleanup-hook "dnspod clean" --deploy-hook "sudo nginx -t && sudo systemctl restart nginx"
+    30 0 * * * root certbot renew --manual --preferred-challenges=dns --manual-auth-hook "dnspod" --manual-cleanup-hook "dnspod clean" --deploy-hook "nginx -t && systemctl restart nginx"
     ```
 
     上面脚本中的 `--deploy-hook "sudo nginx -t && sudo systemctl restart nginx"` 表示在续期成功后自动重启 nginx。
